@@ -13,6 +13,10 @@ class Snake:
     
     def __init__(self):
         self.snake = []
+        self.create_snake()
+        self.head = self.snake[0]
+
+    def create_snake(self):
         # Creating the Snake's Initial Body
         for i in range(3):
             t = turtle.Turtle(shape="square")
@@ -20,7 +24,6 @@ class Snake:
             t.penup()
             t.goto(i * -20, 0)
             self.snake.append(t)
-        self.head = self.snake[0]
 
     def extend(self):
         t = turtle.Turtle(shape="square")
@@ -28,6 +31,14 @@ class Snake:
         t.penup()
         t.goto(self.snake[-1].position())
         self.snake.append(t)
+
+    # Recreating the snake and repositioning the previous snake out of screen
+    def snake_reset(self):
+        for i in self.snake:
+            i.goto(1000, 1000)
+        self.snake.clear()
+        self.create_snake()
+        self.head = self.snake[0]
 
     def move(self):
         # Moving a segment of the snake to the position of it's previous segment

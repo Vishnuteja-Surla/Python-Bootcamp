@@ -19,13 +19,23 @@ class Scoreboard(turtle.Turtle):
         self.hideturtle()
         self.speed("fastest")
         self.score = 0
-        self.write(f"Score : {self.score}", False, align=ALIGNMENT, font=FONT)
+        with open("highscore.txt") as hs:
+            self.highscore = int(hs.read())
+        self.write(f"Score : {self.score} High Score : {self.highscore}", False, align=ALIGNMENT, font=FONT)
 
     def increment_score(self):
         self.score += 1
-        self.clear()
-        self.write(f"Score : {self.score}", False, align=ALIGNMENT, font=FONT)
+        self.update_screen()
 
-    def game_over(self):
-        self.goto(0,0)
-        self.write("Game Over", False, align=ALIGNMENT, font=FONT)
+    def update_screen(self):
+        self.clear()
+        self.write(f"Score : {self.score} High Score : {self.highscore}", False, align=ALIGNMENT, font=FONT)
+
+    def game_reset(self):
+        if self.score > self.highscore:
+            with open("highscore.txt", mode="w") as hs:
+                hs.write(str(self.score))
+            with open("highscore.txt") as hs:
+                self.highscore = int(hs.read())
+        self.score = 0
+        self.update_screen()
